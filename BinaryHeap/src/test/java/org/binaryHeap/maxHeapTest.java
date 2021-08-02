@@ -5,28 +5,30 @@ import org.junit.Test;
 import java.util.Comparator;
 import java.util.Random;
 
-public class minHeapTest {
-
-
-    /** Check that heap contains the values in correct order:
-     * root less than left and right values
+public class maxHeapTest {
+    /**
+     * Check that heap contains the values in correct order:
+     * root bigger than left and right values
+     *
      * @param heap - minHeap to be checked
      * @return true if order is correct, else return false
      */
-    private boolean checkOrder(MinHeap heap){
+
+    private boolean checkOrder(MaxHeap heap) {
+
         boolean wrongOrder = false;
         for (int i = 0; i < heap.size(); i++) {
             int left = heap.left(i);
             int right = heap.right(i);
             if (left < heap.size()) {
-                if (heap.comparator.compare(heap.values.get(left), heap.values.get(i)) < 0) {
+                if (heap.comparator.compare(heap.values.get(left), heap.values.get(i)) > 0) {
                     wrongOrder = true;
                     System.out.println("Error on " + i);
-                    break ;
+                    break;
                 }
             }
             if (right < heap.size()) {
-                if (heap.comparator.compare(heap.values.get(right), heap.values.get(i)) < 0) {
+                if (heap.comparator.compare(heap.values.get(right), heap.values.get(i)) > 0) {
                     wrongOrder = true;
                     System.out.println("Error on " + i);
                     break;
@@ -38,17 +40,17 @@ public class minHeapTest {
 
     @Test
     public void TestOrderIntHeap() {
-        MinHeap<Integer> bigInt = new MinHeap<>(Comparator.naturalOrder());
+        MaxHeap<Integer> bigInt = new MaxHeap<>(Comparator.naturalOrder());
         Random rnd = new Random();
         for (int i = 0; i < 1000000; i++) {
             bigInt.insert(rnd.nextInt());
         }
-         Assert.assertTrue(checkOrder(bigInt));
+        Assert.assertTrue(checkOrder(bigInt));
     }
 
     @Test
     public void TestOrderDoubleHeap() {
-        MinHeap<Double> bigDouble = new MinHeap<>(Comparator.naturalOrder());
+        MaxHeap<Double> bigDouble = new MaxHeap<>(Comparator.naturalOrder());
         Random rnd = new Random();
         for (int i = 0; i < 1000000; i++) {
             bigDouble.insert(rnd.nextDouble());
@@ -58,7 +60,7 @@ public class minHeapTest {
 
     @Test
     public void TestOrderStringHeap() {
-        MinHeap<String> bigString = new MinHeap<>(Comparator.naturalOrder());
+        MaxHeap<String> bigString = new MaxHeap<>(Comparator.naturalOrder());
         Random rnd = new Random();
         for (int i = 0; i < 1000000; i++) {
             byte[] alphabet = new byte[10];
@@ -69,23 +71,23 @@ public class minHeapTest {
     }
 
     @Test
-    public void TestDeleteMin() {
+    public void TestDeleteMax() {
         //empty heap
-        MinHeap<Integer> heap =  new MinHeap<>(0, Comparator.naturalOrder()); //create empty heap
-        heap.deleteMin();
+        MaxHeap<Integer> heap = new MaxHeap<>(0, Comparator.naturalOrder()); //create empty heap
+        heap.deleteMax();
         Assert.assertEquals(heap.size(), Integer.valueOf(0));
 
         //heap with same values
-        heap = new MinHeap<>(Comparator.naturalOrder());
+        heap = new MaxHeap<>(Comparator.naturalOrder());
         for (int i = 0; i < 999; i++)
             heap.insert(42);
         for (int i = 0; i < 999; i++)
-            heap.deleteMin();
+            heap.deleteMax();
 
         Assert.assertEquals(heap.size(), Integer.valueOf(0));
 
         //Usual test
-        heap = new MinHeap<>(Comparator.naturalOrder());
+        heap = new MaxHeap<>(Comparator.naturalOrder());
         Random rnd = new Random();
         for (int i = 0; i < 999; i++) {
             heap.insert(rnd.nextInt());
@@ -93,11 +95,9 @@ public class minHeapTest {
 
         for (int i = 0; i < 999; i++) {
             Integer oldSize = heap.size();
-            heap.deleteMin();
+            heap.deleteMax();
 
             Assert.assertTrue(oldSize - 1 == heap.size());
         }
-
-
     }
 }

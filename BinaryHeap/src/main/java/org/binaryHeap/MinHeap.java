@@ -14,6 +14,8 @@ public class MinHeap<T> extends BinHeap<T>{
      * @return min (first) element
      */
     public T getMin() {
+        if (size() == 0)
+            return null;
         return values.get(0);
     }
 
@@ -53,11 +55,8 @@ public class MinHeap<T> extends BinHeap<T>{
         if (index < 0)
             return;
 
-        while (index != 0) {
-            int pInd = parent(index);
-            Collections.swap(values, index, pInd);
-            index = pInd;
-        }
+        putValueOnTop(index);
+
         deleteMin();
     }
 

@@ -1,6 +1,7 @@
 package org.binaryHeap;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -47,11 +48,18 @@ public abstract class BinHeap<T> {
     }
 
     /**
-     *
      * @return number of elements in heap
      */
     public Integer size() {
         return values.size();
+    }
+
+    protected void putValueOnTop(Integer index) {
+        while (index != 0) {
+            int pInd = parent(index);
+            Collections.swap(values, index, pInd);
+            index = pInd;
+        }
     }
 
     public abstract void insert(T value);
